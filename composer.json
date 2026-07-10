@@ -1,0 +1,32 @@
+{
+    "name": "paolorox/ti-ext-restapro",
+    "type": "tastyigniter-package",
+    "description": "Restaurant Production Pro - ERP extension for TastyIgniter. Manages food cost, recipes, inventory and automatic stock deduction.",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Paolorox",
+            "homepage": "https://github.com/Paolorox"
+        }
+    ],
+    "require": {
+        "tastyigniter/core": "^4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Paolorox\\Restapro\\": "src/"
+        }
+    },
+    "extra": {
+        "tastyigniter-extension": {
+            "code": "paolorox.restapro",
+            "name": "Restaurant Production Pro",
+            "icon": {
+                "class": "fa fa-industry",
+                "color": "#FFF",
+                "backgroundColor": "#2E7D32"
+            },
+            "homepage": "https://github.com/Paolorox/ti-ext-restapro"
+        }
+    }
+}
