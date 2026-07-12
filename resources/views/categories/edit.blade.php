@@ -1,3 +1,5 @@
+{!! $this->makePartial('paolorox.restapro::partials/settings_tabs') !!}
+
 {!! form_open([
     'id'     => 'edit-form',
     'role'   => 'form',

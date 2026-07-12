@@ -46,6 +46,6 @@ class Categories extends AdminController
     {
         parent::__construct();
 
-        AdminMenu::setContext('categories', 'production');
+        AdminMenu::setContext('settings', 'system');
     }
 }

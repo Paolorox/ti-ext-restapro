@@ -21,7 +21,7 @@ class Info extends AdminController
     {
         parent::__construct();
 
-        AdminMenu::setContext('info', 'production');
+        AdminMenu::setContext('settings', 'system');
     }
 
     public function index()
@@ -62,7 +62,7 @@ class Info extends AdminController
         $this->vars['dbOk'] = empty($missingTables);
 
         // Extension info
-        $this->vars['extensionVersion'] = '1.1.0';
+        $this->vars['extensionVersion'] = '1.1.1';
         $this->vars['extensionAuthor'] = 'Paolorox';
         $this->vars['extensionLicense'] = 'GPL-3.0-or-later';
         $this->vars['extensionHomepage'] = 'https://github.com/Paolorox/ti-ext-restapro';

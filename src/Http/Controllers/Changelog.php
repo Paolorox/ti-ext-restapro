@@ -13,7 +13,7 @@ class Changelog extends AdminController
     public function __construct()
     {
         parent::__construct();
-        AdminMenu::setContext('paolorox.restapro', 'restapro', 'changelog');
+        AdminMenu::setContext('settings', 'system');
         Template::setTitle('lang:paolorox.restapro::default.nav_changelog');
     }
 

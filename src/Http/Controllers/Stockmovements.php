@@ -54,7 +54,17 @@ class StockMovements extends AdminController
     {
         parent::__construct();
 
-        AdminMenu::setContext('stockmovements', 'production');
+        AdminMenu::setContext('paolorox.restapro', 'restapro', 'stockmovements');
+    }
+
+    public function formExtendFields($form)
+    {
+        if ($form->context === 'create' && request()->has('type')) {
+            $typeField = $form->getField('type');
+            if ($typeField) {
+                $typeField->value = request()->input('type');
+            }
+        }
     }
 
     public function exportCsv()

@@ -1,3 +1,5 @@
+{!! $this->makePartial('paolorox.restapro::partials/settings_tabs') !!}
+
 <div class="container-fluid py-4" style="background-color: #f8f9fa;">
     <style>
         .timeline {
@@ -69,23 +71,50 @@
         <div class="col-md-10 col-lg-8 mx-auto">
             <div class="timeline">
                 
-                <!-- Version 1.1.0 -->
+                <!-- Version 1.1.1 -->
                 <div class="timeline-item">
                     <div class="timeline-icon" style="border-color: #8b5cf6;"></div>
                     <div class="timeline-content">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <div>
-                                <span class="version-badge" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);">v1.1.0</span>
+                                <span class="version-badge" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);">v1.1.1</span>
+                            </div>
+                            <span class="timeline-date">July 12, 2026</span>
+                        </div>
+                        <h4 class="fw-bold text-dark mb-3">Menu refactoring & Guided Tutorial</h4>
+                        
+                        <h6 class="text-success mt-3">Added</h6>
+                        <ul class="text-muted" style="line-height: 1.8; list-style-type: square; padding-left: 1.5rem;">
+                            <li>Interactive guided tutorial for new users during onboarding (Driver.js).</li>
+                            <li>CSV import for ingredients and stock movements.</li>
+                        </ul>
+
+                        <h6 class="text-info mt-3">Changed</h6>
+                        <ul class="text-muted" style="line-height: 1.8; list-style-type: square; padding-left: 1.5rem;">
+                            <li>Reorganized the main navigation menu into a single "RestaPro" parent item.</li>
+                            <li>Moved Categories, Units, Info, and Settings under the TastyIgniter System Settings page, implementing a unified tabbed interface.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Version 1.1.0 -->
+                <div class="timeline-item">
+                    <div class="timeline-icon"></div>
+                    <div class="timeline-content">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <span class="version-badge">v1.1.0</span>
                             </div>
                             <span class="timeline-date">July 11, 2026</span>
                         </div>
-                        <h4 class="fw-bold text-dark mb-3">UI Refactoring & Architecture Enhancements</h4>
+                        <h4 class="fw-bold text-dark mb-3">UI Refactoring & Expiry Tracking</h4>
                         <ul class="text-muted" style="line-height: 1.8; list-style-type: square; padding-left: 1.5rem;">
                             <li><strong>Refactored Dashboard UI:</strong> Migrated to a glassmorphism design system using Inter typography and CSS micro-animations.</li>
                             <li><strong>Relationship Mapping:</strong> Implemented active recipe querying within the Ingredient model to display relational usage history.</li>
                             <li><strong>Module Integration:</strong> Integrated Purchase Orders resource directly into the Supplier interface for unified data retrieval.</li>
-                            <li><strong>Calculated Attributes:</strong> Added dynamic real-time profit margin computation based on target food cost constraints.</li>
-                            <li><strong>Bug Fixes:</strong> Patched Stock Movement timestamp recording and resolved a reflection exception related to controller class naming.</li>
+                            <li><strong>Expiry Tracking:</strong> Added ingredient expiry tracking with dedicated dashboard widgets.</li>
+                            <li><strong>Yield Computation:</strong> Processing yield per ingredient (<code>yield_percentage</code>).</li>
+                            <li><strong>Stock Return:</strong> Automatic stock restoration when an order is cancelled.</li>
                         </ul>
                     </div>
                 </div>

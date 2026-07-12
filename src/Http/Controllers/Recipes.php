@@ -46,6 +46,6 @@ class Recipes extends AdminController
     {
         parent::__construct();
 
-        AdminMenu::setContext('recipes', 'production');
+        AdminMenu::setContext('paolorox.restapro', 'restapro', 'recipes');
     }
 }

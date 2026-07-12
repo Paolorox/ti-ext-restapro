@@ -48,7 +48,7 @@ class Purchaseorders extends AdminController
     {
         parent::__construct();
 
-        AdminMenu::setContext('purchaseorders', 'production');
+        AdminMenu::setContext('paolorox.restapro', 'restapro', 'purchaseorders');
     }
 
     /**

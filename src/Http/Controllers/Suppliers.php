@@ -46,6 +46,6 @@ class Suppliers extends AdminController
     {
         parent::__construct();
 
-        AdminMenu::setContext('suppliers', 'production');
+        AdminMenu::setContext('paolorox.restapro', 'restapro', 'suppliers');
     }
 }

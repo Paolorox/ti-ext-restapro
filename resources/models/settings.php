@@ -18,6 +18,11 @@ return [
             ],
         ],
         'fields' => [
+            '_tabs' => [
+                'type' => 'partial',
+                'path' => 'paolorox.restapro::partials/settings_tabs',
+                'span' => 'full',
+            ],
             'currency_symbol' => [
                 'label' => 'lang:paolorox.restapro::default.settings_currency_symbol',
                 'type' => 'text',

@@ -17,7 +17,7 @@ class Dashboard extends AdminController
     {
         parent::__construct();
 
-        AdminMenu::setContext('dashboard', 'production');
+        AdminMenu::setContext('paolorox.restapro', 'restapro', 'dashboard');
     }
 
     public function index()
@@ -50,12 +50,12 @@ class Dashboard extends AdminController
         $now = \Carbon\Carbon::now();
 
         $this->vars['expiredIngredients'] = Ingredient::whereNotNull('expiry_date')
-            ->where('expiry_date', '<', $now->toDateString())
+            ->where('expiry_date', '<', $now)
             ->get();
             
         $this->vars['expiringSoonIngredients'] = Ingredient::whereNotNull('expiry_date')
-            ->where('expiry_date', '>=', $now->toDateString())
-            ->whereRaw('DATEDIFF(expiry_date, ?) <= expiry_alert_days', [$now->toDateString()])
+            ->where('expiry_date', '>=', $now)
+            ->whereRaw('DATEDIFF(expiry_date, ?) <= expiry_alert_days', [$now])
             ->get();
 
         $this->vars['expiredCount'] = $this->vars['expiredIngredients']->count();

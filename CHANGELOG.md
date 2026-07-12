@@ -3,20 +3,23 @@
 All notable changes to this extension are documented in this file.
 The format is based on Keep a Changelog and this project adheres to Semantic Versioning.
 
-## [1.1.0] 2026-07-12
+## [1.1.1] 2026-07-12
 
 ### Added
 - Ingredient expiry tracking with the `expiry_date` and `expiry_alert_days` fields, `expiringSoon` and `expired` Eloquent scopes, a dedicated dashboard widget and summary cards on the dashboard.
 - Processing yield per ingredient (`yield_percentage`) applied to both automatic stock deduction on orders and the availability preview.
 - Automatic stock restoration when an order is cancelled, recorded as a return movement and guarded for idempotency to avoid duplicate restores.
 - Manual stock movements with a full create and edit form on the Stock Movements controller, plus quick waste and adjustment entry from the ingredient screen.
-- CSV export for ingredients and stock movements.
+- CSV import and export for ingredients and stock movements.
 - Real-time margin analysis tab on the recipe, comparing actual food cost against the target.
 - New tabs on the ingredient screen: movement history with a cost trend chart, and linked recipes.
 - Related tabs on categories, units and suppliers to view linked ingredients and purchase orders.
 - In-app Changelog page in the admin area.
+- Interactive guided tutorial for new users during onboarding.
 
 ### Changed
+- Reorganized the main navigation menu into a single "RestaPro" parent item for a cleaner sidebar.
+- Moved Categories, Units, Info, and Settings under the TastyIgniter System Settings page, implementing a unified tabbed interface.
 - Reworked dashboard interface with a new layout and components.
 - License reported consistently as GPL-3.0-or-later, including the Info page.
 

@@ -350,7 +350,7 @@
                                         <td class="fw-bold {{ $movement->quantity > 0 ? 'text-success' : 'text-danger' }}">
                                             {{ $movement->quantity > 0 ? '+' : '' }}{{ number_format((float)$movement->quantity, 2) }}
                                         </td>
-                                        <td class="text-muted small">{{ $movement->created_at?->diffForHumans() ?? '—' }}</td>
+                                        <td class="text-muted small">{{ $movement->created_at?->format('d/m/Y H:i') ?? '—' }}</td>
                                     </tr>
                                 @empty
                                     <tr>
@@ -398,3 +398,5 @@
         @endif
     </div>
 </div>
+
+{!! $this->makePartial('paolorox.restapro::partials/tutorial') !!}

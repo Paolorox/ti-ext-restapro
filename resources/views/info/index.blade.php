@@ -1,3 +1,5 @@
+{!! $this->makePartial('paolorox.restapro::partials/settings_tabs') !!}
+
 <div class="container-fluid py-3">
     {{-- Header --}}
     <div class="row mb-4">
@@ -6,9 +8,14 @@
                 <div class="flex-shrink-0 bg-success bg-opacity-10 rounded-3 p-3 me-3">
                     <i class="fa fa-industry fa-2x text-success"></i>
                 </div>
-                <div>
+                <div class="flex-grow-1">
                     <h2 class="mb-1">Restaurant Production Pro</h2>
                     <p class="text-muted mb-0">@lang('paolorox.restapro::default.info_subtitle')</p>
+                </div>
+                <div>
+                    <button class="btn btn-primary" onclick="localStorage.removeItem('restapro_tour_completed'); window.location.href='{{ admin_url('paolorox/restapro/dashboard') }}';">
+                        <i class="fa fa-play-circle me-1"></i> Restart Tutorial
+                    </button>
                 </div>
             </div>
         </div>

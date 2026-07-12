@@ -89,7 +89,7 @@ class Extension extends BaseExtension
             'restapro' => [
                 'priority' => 400,
                 'icon' => 'fa-utensils',
-                'title' => lang('paolorox.restapro::default.nav_production'),
+                'title' => 'RestaPro',
                 'href' => admin_url('paolorox/restapro/dashboard'),
                 'permission' => ['Paolorox.Restapro.*'],
                 'child' => [
@@ -111,11 +111,11 @@ class Extension extends BaseExtension
                         'href' => admin_url('paolorox/restapro/recipes'),
                         'permission' => ['Paolorox.Restapro.ManageRecipes'],
                     ],
-                    'suppliers' => [
+                    'stockmovements' => [
                         'priority' => 400,
-                        'title' => lang('paolorox.restapro::default.nav_suppliers'),
-                        'href' => admin_url('paolorox/restapro/suppliers'),
-                        'permission' => ['Paolorox.Restapro.ManageSuppliers'],
+                        'title' => lang('paolorox.restapro::default.nav_stock_movements'),
+                        'href' => admin_url('paolorox/restapro/stockmovements'),
+                        'permission' => ['Paolorox.Restapro.ViewStockMovements'],
                     ],
                     'purchaseorders' => [
                         'priority' => 500,
@@ -123,44 +123,11 @@ class Extension extends BaseExtension
                         'href' => admin_url('paolorox/restapro/purchaseorders'),
                         'permission' => ['Paolorox.Restapro.ManagePurchaseOrders'],
                     ],
-                    'stockmovements' => [
+                    'suppliers' => [
                         'priority' => 600,
-                        'title' => lang('paolorox.restapro::default.nav_stock_movements'),
-                        'href' => admin_url('paolorox/restapro/stockmovements'),
-                        'permission' => ['Paolorox.Restapro.ViewStockMovements'],
-                    ],
-                ],
-            ],
-            'restapro_settings' => [
-                'priority' => 401,
-                'icon' => 'fa-cogs',
-                'title' => lang('paolorox.restapro::default.nav_restapro_settings'),
-                'href' => admin_url('paolorox/restapro/categories'),
-                'permission' => ['Paolorox.Restapro.*'],
-                'child' => [
-                    'categories' => [
-                        'priority' => 700,
-                        'title' => lang('paolorox.restapro::default.nav_categories'),
-                        'href' => admin_url('paolorox/restapro/categories'),
-                        'permission' => ['Paolorox.Restapro.ManageCategories'],
-                    ],
-                    'units' => [
-                        'priority' => 800,
-                        'title' => lang('paolorox.restapro::default.nav_units'),
-                        'href' => admin_url('paolorox/restapro/units'),
-                        'permission' => ['Paolorox.Restapro.ManageUnits'],
-                    ],
-                    'info' => [
-                        'priority' => 900,
-                        'title' => lang('paolorox.restapro::default.nav_info'),
-                        'href' => admin_url('paolorox/restapro/info'),
-                        'permission' => ['Paolorox.Restapro.ViewInfo'],
-                    ],
-                    'changelog' => [
-                        'priority' => 1000,
-                        'title' => lang('paolorox.restapro::default.nav_changelog'),
-                        'href' => admin_url('paolorox/restapro/changelog'),
-                        'permission' => ['Paolorox.Restapro.Dashboard'],
+                        'title' => lang('paolorox.restapro::default.nav_suppliers'),
+                        'href' => admin_url('paolorox/restapro/suppliers'),
+                        'permission' => ['Paolorox.Restapro.ManageSuppliers'],
                     ],
                 ],
             ],
@@ -217,8 +184,8 @@ class Extension extends BaseExtension
     {
         return [
             'settings' => [
-                'label' => 'lang:paolorox.restapro::default.settings_title',
-                'description' => 'lang:paolorox.restapro::default.settings_description',
+                'label' => 'RestaPro Settings',
+                'description' => 'Configure global settings for RestaPro.',
                 'icon' => 'fa fa-cogs',
                 'model' => \Paolorox\Restapro\Models\Settings::class,
                 'permissions' => ['Paolorox.Restapro.ManageSettings'],

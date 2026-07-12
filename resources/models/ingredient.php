@@ -146,6 +146,16 @@ return [
                     'class' => 'btn btn-default',
                     'href' => 'paolorox/restapro/stockmovements/create',
                 ],
+                'add_waste' => [
+                    'label' => 'Add Waste',
+                    'class' => 'btn btn-danger',
+                    'href' => 'paolorox/restapro/stockmovements/create?type=waste',
+                ],
+                'import' => [
+                    'label' => 'Import CSV',
+                    'class' => 'btn btn-default',
+                    'href' => 'paolorox/restapro/ingredients/importcsv',
+                ],
                 'export' => [
                     'label' => 'Export CSV',
                     'class' => 'btn btn-default',

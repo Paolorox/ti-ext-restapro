@@ -46,7 +46,7 @@ class Ingredients extends AdminController
     {
         parent::__construct();
 
-        AdminMenu::setContext('ingredients', 'production');
+        AdminMenu::setContext('paolorox.restapro', 'restapro', 'ingredients');
     }
 
     public function exportCsv()
@@ -107,5 +107,66 @@ class Ingredients extends AdminController
         flash()->success(lang('paolorox.restapro::default.alert_movement_added'));
 
         return $this->redirect('paolorox/restapro/ingredients');
+    }
+
+    public function importCsv()
+    {
+        if (request()->isMethod('post') && request()->hasFile('import_file')) {
+            $file = request()->file('import_file');
+            
+            if ($file->isValid() && $file->getClientOriginalExtension() === 'csv') {
+                $path = $file->getRealPath();
+                $data = array_map('str_getcsv', file($path));
+                
+                if (count($data) > 0) {
+                    $headers = array_shift($data);
+                    $headerMap = array_flip(array_map('trim', $headers));
+                    
+                    $importedCount = 0;
+                    foreach ($data as $row) {
+                        if (!isset($row[$headerMap['Name']]) || empty($row[$headerMap['Name']])) continue;
+                        
+                        $name = trim($row[$headerMap['Name']]);
+                        $sku = isset($headerMap['SKU']) ? trim($row[$headerMap['SKU']]) : null;
+                        
+                        $ingredient = \Paolorox\Restapro\Models\Ingredient::firstOrNew(['name' => $name]);
+                        $ingredient->sku = $sku;
+                        
+                        if (isset($headerMap['Category']) && !empty($row[$headerMap['Category']])) {
+                            $categoryName = trim($row[$headerMap['Category']]);
+                            $category = \Paolorox\Restapro\Models\Category::firstOrCreate(['name' => $categoryName]);
+                            $ingredient->category_id = $category->id;
+                        }
+                        
+                        if (isset($headerMap['Unit']) && !empty($row[$headerMap['Unit']])) {
+                            $unitAbbr = trim($row[$headerMap['Unit']]);
+                            $unit = \Paolorox\Restapro\Models\Unit::where('abbreviation', $unitAbbr)->first();
+                            if ($unit) {
+                                $ingredient->unit_id = $unit->id;
+                            }
+                        }
+                        
+                        if (isset($headerMap['Low Stock Threshold']) && is_numeric($row[$headerMap['Low Stock Threshold']])) {
+                            $ingredient->low_stock_threshold = (float) $row[$headerMap['Low Stock Threshold']];
+                        }
+                        
+                        if (isset($headerMap['Is Active'])) {
+                            $ingredient->is_active = (bool) $row[$headerMap['Is Active']];
+                        }
+                        
+                        $ingredient->save();
+                        $importedCount++;
+                    }
+                    
+                    flash()->success("Successfully imported {$importedCount} ingredients.");
+                    return redirect('paolorox/restapro/ingredients');
+                }
+            }
+            flash()->danger('Invalid CSV file uploaded.');
+            return redirect()->back();
+        }
+
+        $this->vars['uploadUrl'] = admin_url('paolorox/restapro/ingredients/importcsv');
+        return $this->makeView('paolorox.restapro::ingredients.import');
     }
 }
