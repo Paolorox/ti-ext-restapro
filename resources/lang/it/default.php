@@ -6,6 +6,7 @@ return [
     'text_description' => 'Estensione ERP per la gestione della produzione della ristorazione, controllo del food cost e tracciamento dell\'inventario.',
 
     // Navigation
+    'nav_restapro' => 'RestaPro',
     'nav_production' => 'Produzione',
     'nav_dashboard' => 'Dashboard',
     'nav_ingredients' => 'Ingredienti',
@@ -16,6 +17,8 @@ return [
     'nav_categories' => 'Categorie',
     'nav_units' => 'Unità di Misura',
     'nav_info' => 'Info & Guida',
+    'nav_changelog' => 'Changelog',
+    'nav_restapro_settings' => 'Impostazioni RestaPro',
 
     // Dashboard
     'dashboard_title' => 'Dashboard Produzione',
@@ -23,6 +26,9 @@ return [
     'dashboard_active_recipes' => 'Ricette Attive',
     'dashboard_inventory_value' => 'Valore Inventario',
     'dashboard_low_stock_alerts' => 'Avvisi Sotto Scorta',
+    'widget_expiring_title' => 'Ingredienti in Scadenza',
+    'widget_expired_title' => 'Ingredienti Scaduti',
+    'widget_no_expiring' => 'Nessun ingrediente in scadenza a breve.',
     'dashboard_low_stock_title' => 'Ingredienti in Sotto Scorta',
     'dashboard_over_target_title' => 'Ricette Oltre Target Food Cost',
     'dashboard_recent_movements' => 'Movimenti Recenti di Magazzino',
@@ -46,9 +52,14 @@ return [
     'ingredient_last_cost' => 'Ultimo Costo d\'Acquisto',
     'ingredient_stock' => 'Scorta Corrente',
     'ingredient_minimum_stock' => 'Avviso Scorta Minima',
+    'ingredient_expiry_date' => 'Data di Scadenza',
+    'ingredient_expiry_alert_days' => 'Avviso Scadenza (Giorni Prima)',
     'ingredient_is_active' => 'Attivo',
+    'ingredient_yield' => 'Resa Lavorazione (%)',
+    'ingredient_yield_comment' => 'Percentuale di resa dopo la pulizia/scarto. Es. 80% per le patate.',
 
     // Recipes
+
     'recipe_title' => 'Ricette',
     'recipe_name' => 'Nome Ricetta',
     'recipe_type' => 'Tipo',
@@ -60,6 +71,7 @@ return [
     'recipe_target_food_cost' => 'Target Food Cost %',
     'recipe_calculated_cost' => 'Costo Calcolato',
     'recipe_instructions' => 'Istruzioni Preparazione',
+    'recipe_is_active' => 'Attiva',
     'recipe_ingredients_tab' => 'Ingredienti',
     'recipe_add_ingredient' => 'Aggiungi Ingrediente',
 
@@ -152,6 +164,9 @@ return [
     'tab_instructions' => 'Istruzioni',
     'tab_items' => 'Articoli',
     'button_new_ingredient' => 'Nuovo Ingrediente',
+    'button_add_movement' => 'Aggiungi Scarto / Rettifica',
+    'help_movement_quantity' => 'Inserisci una quantità positiva per lo scarto, o positiva/negativa per le rettifiche manuali.',
+    'alert_movement_added' => 'Movimento di magazzino aggiunto con successo.',
     'button_new_recipe' => 'Nuova Ricetta',
     'button_new_supplier' => 'Nuovo Fornitore',
     'button_new_category' => 'Nuova Categoria',

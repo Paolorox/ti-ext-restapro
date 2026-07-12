@@ -43,6 +43,13 @@ return [
                 'span' => 'full',
                 'attributes' => ['rows' => 3],
             ],
+            'Linked Ingredients' => [
+                'ingredients_list' => [
+                    'tab' => 'Linked Ingredients',
+                    'type' => 'partial',
+                    'path' => 'paolorox.restapro::categories.ingredients',
+                ],
+            ],
         ],
     ],
     'list' => [

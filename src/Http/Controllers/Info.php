@@ -62,9 +62,9 @@ class Info extends AdminController
         $this->vars['dbOk'] = empty($missingTables);
 
         // Extension info
-        $this->vars['extensionVersion'] = '1.0.0';
+        $this->vars['extensionVersion'] = '1.1.0';
         $this->vars['extensionAuthor'] = 'Paolorox';
-        $this->vars['extensionLicense'] = 'MIT';
+        $this->vars['extensionLicense'] = 'GPL-3.0-or-later';
         $this->vars['extensionHomepage'] = 'https://github.com/Paolorox/ti-ext-restapro';
 
         return $this->makeView('paolorox.restapro::info.index');

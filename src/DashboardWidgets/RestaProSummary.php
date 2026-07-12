@@ -34,5 +34,8 @@ class RestaProSummary extends BaseDashboardWidget
 
         $this->vars['lowStockCount'] = $inventoryEngine->getLowStockIngredients()->count();
         $this->vars['pendingOrdersCount'] = PurchaseOrder::whereIn('status', ['pending', 'processing'])->count();
+        
+        $this->vars['expiringSoonCount'] = \Paolorox\Restapro\Models\Ingredient::isActive()->expiringSoon()->count();
+        $this->vars['expiredCount'] = \Paolorox\Restapro\Models\Ingredient::isActive()->expired()->count();
     }
 }

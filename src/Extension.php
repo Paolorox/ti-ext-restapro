@@ -58,14 +58,37 @@ class Extension extends BaseExtension
                 );
             }
         });
+
+        // Event Listener: Ripristino stock su ordine annullato
+        Event::listen('admin.statusHistory.added', function ($model, $statusHistory) {
+            try {
+                // Controlla se il modello è un Ordine
+                if (class_basename($model) !== 'Order' && class_basename($model) !== 'Orders_model') {
+                    return;
+                }
+
+                $canceledStatusId = setting('canceled_order_status');
+                
+                if ($canceledStatusId && $statusHistory->status_id == $canceledStatusId) {
+                    Log::info("[RestaPro] Order cancelled event detected for order #{$model->order_id}");
+                    $resolver = app(\Paolorox\Restapro\Services\RecipeResolverService::class);
+                    $resolver->restoreStockForOrder($model);
+                }
+            } catch (\Throwable $e) {
+                Log::error(
+                    '[RestaPro] Failed to restore stock for cancelled order: ' . $e->getMessage(),
+                    ['order_id' => $model->order_id ?? null, 'trace' => $e->getTraceAsString()]
+                );
+            }
+        });
     }
 
     public function registerNavigation(): array
     {
         return [
-            'production' => [
+            'restapro' => [
                 'priority' => 400,
-				'icon' => 'fa-puzzle-piece',
+                'icon' => 'fa-utensils',
                 'title' => lang('paolorox.restapro::default.nav_production'),
                 'href' => admin_url('paolorox/restapro/dashboard'),
                 'permission' => ['Paolorox.Restapro.*'],
@@ -106,6 +129,15 @@ class Extension extends BaseExtension
                         'href' => admin_url('paolorox/restapro/stockmovements'),
                         'permission' => ['Paolorox.Restapro.ViewStockMovements'],
                     ],
+                ],
+            ],
+            'restapro_settings' => [
+                'priority' => 401,
+                'icon' => 'fa-cogs',
+                'title' => lang('paolorox.restapro::default.nav_restapro_settings'),
+                'href' => admin_url('paolorox/restapro/categories'),
+                'permission' => ['Paolorox.Restapro.*'],
+                'child' => [
                     'categories' => [
                         'priority' => 700,
                         'title' => lang('paolorox.restapro::default.nav_categories'),
@@ -123,6 +155,12 @@ class Extension extends BaseExtension
                         'title' => lang('paolorox.restapro::default.nav_info'),
                         'href' => admin_url('paolorox/restapro/info'),
                         'permission' => ['Paolorox.Restapro.ViewInfo'],
+                    ],
+                    'changelog' => [
+                        'priority' => 1000,
+                        'title' => lang('paolorox.restapro::default.nav_changelog'),
+                        'href' => admin_url('paolorox/restapro/changelog'),
+                        'permission' => ['Paolorox.Restapro.Dashboard'],
                     ],
                 ],
             ],
@@ -193,6 +231,11 @@ class Extension extends BaseExtension
         return [
             \Paolorox\Restapro\DashboardWidgets\RestaProSummary::class => [
                 'label' => 'RestaPro Summary',
+                'context' => 'dashboard',
+                'permissions' => ['Paolorox.Restapro.Dashboard'],
+            ],
+            \Paolorox\Restapro\DashboardWidgets\ExpiringIngredients::class => [
+                'label' => 'Expiring Ingredients',
                 'context' => 'dashboard',
                 'permissions' => ['Paolorox.Restapro.Dashboard'],
             ],

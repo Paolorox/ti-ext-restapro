@@ -19,11 +19,14 @@ class IngredientRequest extends FormRequest
             'stock' => 'nullable|numeric',
             'minimum_stock' => 'nullable|numeric|min:0',
             'is_active' => 'nullable|boolean',
+            'expiry_date' => 'nullable|date',
+            'expiry_alert_days' => 'nullable|integer',
+            'yield_percentage' => 'nullable|numeric|min:1|max:100',
         ];
     }
 
     public function getRecordId(): string|int|null
     {
-        return $this->route('recordId') ?? $this->route('id');
+        return $this->route('recordId') ?? $this->route('id') ?? $this->segment(6);
     }
 }

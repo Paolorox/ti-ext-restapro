@@ -19,6 +19,9 @@ class Ingredient extends Model
         'stock',
         'minimum_stock',
         'is_active',
+        'expiry_date',
+        'expiry_alert_days',
+        'yield_percentage',
     ];
 
     protected $casts = [
@@ -30,6 +33,9 @@ class Ingredient extends Model
         'stock' => 'float',
         'minimum_stock' => 'float',
         'is_active' => 'boolean',
+        'expiry_date' => 'date',
+        'expiry_alert_days' => 'integer',
+        'yield_percentage' => 'float',
     ];
 
     public $relation = [
@@ -53,6 +59,19 @@ class Ingredient extends Model
     {
         return $query->whereColumn('stock', '<=', 'minimum_stock')
             ->where('minimum_stock', '>', 0);
+    }
+
+    public function scopeExpiringSoon($query)
+    {
+        return $query->whereNotNull('expiry_date')
+            ->whereRaw('DATEDIFF(expiry_date, NOW()) <= expiry_alert_days')
+            ->whereRaw('DATEDIFF(expiry_date, NOW()) >= 0');
+    }
+
+    public function scopeExpired($query)
+    {
+        return $query->whereNotNull('expiry_date')
+            ->whereRaw('DATEDIFF(expiry_date, NOW()) < 0');
     }
 
     public function scopeByCategory($query, $categoryId)

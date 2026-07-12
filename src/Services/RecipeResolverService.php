@@ -70,14 +70,19 @@ class RecipeResolverService
                         continue;
                     }
 
+                    // Adjust required quantity based on yield
+                    $yieldPercentage = $ingredient->yield_percentage ?? 100;
+                    $yieldRatio = $yieldPercentage > 0 ? ($yieldPercentage / 100) : 1;
+                    $quantityToDeduct = $requiredQty / $yieldRatio;
+
                     $this->inventoryEngine->recordSale(
                         $ingredient,
-                        $requiredQty,
+                        $quantityToDeduct,
                         (string) $order->order_id,
                         "Order #{$order->order_id} - {$recipe->name} x{$quantity}",
                     );
 
-                    $totalDeductions[$ingredientId] = ($totalDeductions[$ingredientId] ?? 0) + $requiredQty;
+                    $totalDeductions[$ingredientId] = ($totalDeductions[$ingredientId] ?? 0) + $quantityToDeduct;
                 }
             }
 
@@ -89,6 +94,70 @@ class RecipeResolverService
         }
 
         return $totalDeductions;
+    }
+
+    /**
+     * Ripristina le giacenze per un ordine annullato/rimborsato.
+     */
+    public function restoreStockForOrder($order): array
+    {
+        $totalRestored = [];
+
+        try {
+            // Controlla se abbiamo già effettuato un reso per questo ordine
+            $alreadyRestored = StockMovement::query()
+                ->where('reference_type', 'order_return')
+                ->where('reference_id', (string) $order->order_id)
+                ->exists();
+
+            if ($alreadyRestored) {
+                Log::info("[RestaPro] Order #{$order->order_id} already restored, skipping");
+                return [];
+            }
+
+            // Dobbiamo sapere cosa è stato scaricato.
+            // Opzione A: ricalcolarlo dal menu (come deductStockForOrder)
+            // Opzione B: usare i movimenti di magazzino creati originariamente.
+            // Opzione B è molto più sicura nel caso in cui la ricetta sia cambiata nel tempo.
+            
+            $deductions = StockMovement::query()
+                ->where('reference_type', 'order')
+                ->where('reference_id', (string) $order->order_id)
+                ->where('type', StockMovement::TYPE_SALE)
+                ->get();
+
+            if ($deductions->isEmpty()) {
+                Log::info("[RestaPro] No previous deductions found for order #{$order->order_id}, nothing to restore.");
+                return [];
+            }
+
+            foreach ($deductions as $movement) {
+                $ingredient = $movement->ingredient;
+                if (!$ingredient) {
+                    continue;
+                }
+
+                // $movement->quantity is negative for sales, we use abs() inside recordReturn
+                $quantityToRestore = abs($movement->quantity);
+
+                $this->inventoryEngine->recordReturn(
+                    $ingredient,
+                    $quantityToRestore,
+                    (string) $order->order_id,
+                    "Order #{$order->order_id} Cancelled - Restored {$ingredient->name}",
+                );
+
+                $totalRestored[$ingredient->id] = ($totalRestored[$ingredient->id] ?? 0) + $quantityToRestore;
+            }
+
+            Log::info("[RestaPro] Order #{$order->order_id} cancelled: restored " . count($totalRestored) . ' ingredients');
+        } catch (\Throwable $e) {
+            Log::error("[RestaPro] Error restoring stock for order #{$order->order_id}: {$e->getMessage()}", [
+                'trace' => $e->getTraceAsString(),
+            ]);
+        }
+
+        return $totalRestored;
     }
 
     /**
@@ -134,12 +203,16 @@ class RecipeResolverService
                 continue;
             }
 
+            $yieldPercentage = $ingredient->yield_percentage ?? 100;
+            $yieldRatio = $yieldPercentage > 0 ? ($yieldPercentage / 100) : 1;
+            $quantityRequired = $required / $yieldRatio;
+
             $result[$ingredientId] = [
                 'name' => $ingredient->name,
                 'unit' => $ingredient->unit->abbreviation ?? '',
-                'required' => round($required, 3),
+                'required' => round($quantityRequired, 3),
                 'available' => $ingredient->stock,
-                'sufficient' => $ingredient->stock >= $required,
+                'sufficient' => $ingredient->stock >= $quantityRequired,
             ];
         }
 

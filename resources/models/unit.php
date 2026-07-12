@@ -68,6 +68,13 @@ return [
                 'span' => 'right',
                 'default' => true,
             ],
+            'Linked Ingredients' => [
+                'ingredients_list' => [
+                    'tab' => 'Linked Ingredients',
+                    'type' => 'partial',
+                    'path' => 'paolorox.restapro::units.ingredients',
+                ],
+            ],
         ],
     ],
     'list' => [

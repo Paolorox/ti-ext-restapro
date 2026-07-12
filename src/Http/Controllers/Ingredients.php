@@ -48,4 +48,64 @@ class Ingredients extends AdminController
 
         AdminMenu::setContext('ingredients', 'production');
     }
+
+    public function exportCsv()
+    {
+        $ingredients = \Paolorox\Restapro\Models\Ingredient::with(['category', 'unit'])->orderBy('name')->get();
+        $csv = "ID,Name,SKU,Category,Stock Quantity,Unit,Low Stock Threshold,Expiry Date,Is Active\n";
+        
+        foreach ($ingredients as $i) {
+            $category = $i->category ? str_replace('"', '""', $i->category->name) : '';
+            $unit = $i->unit ? str_replace('"', '""', $i->unit->abbreviation) : '';
+            $name = str_replace('"', '""', $i->name);
+            $sku = str_replace('"', '""', $i->sku);
+            $active = $i->is_active ? 'Yes' : 'No';
+            
+            $csv .= "{$i->id},\"{$name}\",\"{$sku}\",\"{$category}\",{$i->stock},\"{$unit}\",{$i->minimum_stock},{$i->expiry_date},{$active}\n";
+        }
+        
+        return \Response::make($csv, 200, [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="ingredients_'.date('Y-m-d').'.csv"',
+        ]);
+    }
+
+    public function onLoadAddMovementForm()
+    {
+        $ingredients = \Paolorox\Restapro\Models\Ingredient::isActive()->orderBy('name')->get();
+        return $this->makePartial('ingredients/add_movement_modal', ['ingredients' => $ingredients]);
+    }
+
+    public function onAddMovement()
+    {
+        $data = post();
+        
+        $rules = [
+            'ingredient_id' => 'required|exists:Paolorox\Restapro\Models\Ingredient,id',
+            'type' => 'required|in:waste,adjustment',
+            'quantity' => 'required|numeric',
+        ];
+
+        $validation = \Illuminate\Support\Facades\Validator::make($data, $rules);
+
+        if ($validation->fails()) {
+            throw new \Igniter\System\Exceptions\ValidationException($validation);
+        }
+
+        $ingredient = \Paolorox\Restapro\Models\Ingredient::find($data['ingredient_id']);
+        $engine = app(\Paolorox\Restapro\Services\InventoryEngine::class);
+
+        if ($data['type'] === 'waste') {
+            // quantity should be negative for waste, but we handle it via InventoryEngine depending on how it's defined
+            // InventoryEngine->recordWaste takes absolute quantity and negates it.
+            $engine->recordWaste($ingredient, $data['quantity'], $data['notes'] ?? null);
+        } else {
+            // Adjustment allows positive or negative
+            $engine->adjustStock($ingredient, $data['quantity'], $data['notes'] ?? null);
+        }
+
+        flash()->success(lang('paolorox.restapro::default.alert_movement_added'));
+
+        return $this->redirect('paolorox/restapro/ingredients');
+    }
 }

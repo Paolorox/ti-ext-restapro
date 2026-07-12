@@ -64,6 +64,13 @@ return [
                 'span' => 'left',
                 'default' => true,
             ],
+            'Purchase Orders' => [
+                'recent_orders' => [
+                    'tab' => 'Purchase Orders',
+                    'type' => 'partial',
+                    'path' => 'paolorox.restapro::suppliers.orders',
+                ],
+            ],
         ],
     ],
     'list' => [

@@ -6,7 +6,8 @@ return [
     'text_description' => 'ERP extension for restaurant production management, food cost control and inventory tracking.',
 
     // Navigation
-    'nav_production' => 'Production',
+    'nav_restapro' => 'RestaPro',
+    'nav_production' => 'RestaPro Production',
     'nav_dashboard' => 'Dashboard',
     'nav_ingredients' => 'Ingredients',
     'nav_recipes' => 'Recipes',
@@ -16,6 +17,8 @@ return [
     'nav_categories' => 'Categories',
     'nav_units' => 'Units',
     'nav_info' => 'Info & Guide',
+    'nav_changelog' => 'Changelog',
+    'nav_restapro_settings' => 'RestaPro Settings',
 
     // Dashboard
     'dashboard_title' => 'Production Dashboard',
@@ -23,6 +26,9 @@ return [
     'dashboard_active_recipes' => 'Active Recipes',
     'dashboard_inventory_value' => 'Inventory Value',
     'dashboard_low_stock_alerts' => 'Low Stock Alerts',
+    'widget_expiring_title' => 'Expiring Ingredients',
+    'widget_expired_title' => 'Expired Ingredients',
+    'widget_no_expiring' => 'No ingredients are expiring soon.',
     'dashboard_low_stock_title' => 'Low Stock Ingredients',
     'dashboard_over_target_title' => 'Recipes Over Target Food Cost',
     'dashboard_recent_movements' => 'Recent Stock Movements',
@@ -46,7 +52,11 @@ return [
     'ingredient_last_cost' => 'Last Purchase Cost',
     'ingredient_stock' => 'Current Stock',
     'ingredient_minimum_stock' => 'Minimum Stock Alert',
+    'ingredient_expiry_date' => 'Expiry Date',
+    'ingredient_expiry_alert_days' => 'Expiry Alert (Days Before)',
     'ingredient_is_active' => 'Active',
+    'ingredient_yield' => 'Processing Yield (%)',
+    'ingredient_yield_comment' => 'Yield percentage after peeling/waste. E.g. 80% for potatoes.',
 
     // Recipes
     'recipe_title' => 'Recipes',
@@ -60,6 +70,7 @@ return [
     'recipe_target_food_cost' => 'Target Food Cost %',
     'recipe_calculated_cost' => 'Calculated Cost',
     'recipe_instructions' => 'Preparation Instructions',
+    'recipe_is_active' => 'Active',
     'recipe_ingredients_tab' => 'Ingredients',
     'recipe_add_ingredient' => 'Add Ingredient',
 
@@ -152,6 +163,9 @@ return [
     'tab_instructions' => 'Instructions',
     'tab_items' => 'Items',
     'button_new_ingredient' => 'New Ingredient',
+    'button_add_movement' => 'Add Movement/Waste',
+    'help_movement_quantity' => 'Enter a positive amount for waste or positive/negative for manual adjustments.',
+    'alert_movement_added' => 'Stock movement has been added successfully.',
     'button_new_recipe' => 'New Recipe',
     'button_new_supplier' => 'New Supplier',
     'button_new_category' => 'New Category',

@@ -79,6 +79,24 @@ class InventoryEngine
         ]);
     }
 
+    public function recordReturn(
+        Ingredient $ingredient,
+        float $quantity,
+        ?string $referenceId = null,
+        ?string $notes = null,
+    ): StockMovement {
+        return StockMovement::create([
+            'ingredient_id' => $ingredient->id,
+            'type' => StockMovement::TYPE_ADJUSTMENT,
+            'quantity' => abs($quantity),
+            'unit_cost' => $ingredient->average_cost,
+            'reference_id' => $referenceId,
+            'reference_type' => 'order_return',
+            'notes' => $notes,
+            'user_id' => Auth::id(),
+        ]);
+    }
+
     public function getLowStockIngredients()
     {
         return Ingredient::isActive()

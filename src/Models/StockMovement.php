@@ -6,6 +6,8 @@ use Igniter\Flame\Database\Model;
 
 class StockMovement extends Model
 {
+    public $timestamps = true;
+
     protected $table = 'fc_stock_movements';
 
     protected $fillable = [
@@ -57,6 +59,16 @@ class StockMovement extends Model
     public function scopeSales($query)
     {
         return $query->where('type', self::TYPE_SALE);
+    }
+
+    public function scopeIsSale($query)
+    {
+        return $query->where('type', self::TYPE_SALE);
+    }
+
+    public function setUnitCostAttribute($value)
+    {
+        $this->attributes['unit_cost'] = $value ?: 0;
     }
 
     public function getTypeNameAttribute(): string

@@ -47,6 +47,20 @@ class Dashboard extends AdminController
             ->limit(10)
             ->get();
 
+        $now = \Carbon\Carbon::now();
+
+        $this->vars['expiredIngredients'] = Ingredient::whereNotNull('expiry_date')
+            ->where('expiry_date', '<', $now->toDateString())
+            ->get();
+            
+        $this->vars['expiringSoonIngredients'] = Ingredient::whereNotNull('expiry_date')
+            ->where('expiry_date', '>=', $now->toDateString())
+            ->whereRaw('DATEDIFF(expiry_date, ?) <= expiry_alert_days', [$now->toDateString()])
+            ->get();
+
+        $this->vars['expiredCount'] = $this->vars['expiredIngredients']->count();
+        $this->vars['expiringSoonCount'] = $this->vars['expiringSoonIngredients']->count();
+
         return $this->makeView('index');
     }
 }

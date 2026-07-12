@@ -96,6 +96,40 @@ return [
                     'span' => 'right',
                     'tab' => 'lang:paolorox.restapro::default.tab_costs_stock',
                 ],
+                'expiry_date' => [
+                    'label' => 'lang:paolorox.restapro::default.ingredient_expiry_date',
+                    'type' => 'datepicker',
+                    'mode' => 'date',
+                    'span' => 'left',
+                    'tab' => 'lang:paolorox.restapro::default.tab_costs_stock',
+                ],
+                'expiry_alert_days' => [
+                    'label' => 'lang:paolorox.restapro::default.ingredient_expiry_alert_days',
+                    'type' => 'number',
+                    'span' => 'right',
+                    'default' => 3,
+                    'tab' => 'lang:paolorox.restapro::default.tab_costs_stock',
+                ],
+                'yield_percentage' => [
+                    'label' => 'lang:paolorox.restapro::default.ingredient_yield',
+                    'type' => 'number',
+                    'span' => 'left',
+                    'default' => 100,
+                    'comment' => 'lang:paolorox.restapro::default.ingredient_yield_comment',
+                    'tab' => 'lang:paolorox.restapro::default.tab_costs_stock',
+                ],
+            ],
+            'History & Usage' => [
+                'recent_movements' => [
+                    'tab' => 'History & Usage',
+                    'type' => 'partial',
+                    'path' => 'paolorox.restapro::ingredients.history',
+                ],
+                'linked_recipes' => [
+                    'tab' => 'History & Usage',
+                    'type' => 'partial',
+                    'path' => 'paolorox.restapro::ingredients.recipes',
+                ],
             ],
         ],
     ],
@@ -106,6 +140,16 @@ return [
                     'label' => 'lang:paolorox.restapro::default.button_new_ingredient',
                     'class' => 'btn btn-primary',
                     'href' => 'paolorox/restapro/ingredients/create',
+                ],
+                'add_movement' => [
+                    'label' => 'lang:paolorox.restapro::default.button_add_movement',
+                    'class' => 'btn btn-default',
+                    'href' => 'paolorox/restapro/stockmovements/create',
+                ],
+                'export' => [
+                    'label' => 'Export CSV',
+                    'class' => 'btn btn-default',
+                    'href' => 'paolorox/restapro/ingredients/exportcsv',
                 ],
             ],
         ],
@@ -168,6 +212,10 @@ return [
             'stock' => [
                 'label' => 'lang:paolorox.restapro::default.ingredient_stock',
                 'type' => 'text',
+            ],
+            'expiry_date' => [
+                'label' => 'lang:paolorox.restapro::default.ingredient_expiry_date',
+                'type' => 'date',
             ],
             'average_cost' => [
                 'label' => 'lang:paolorox.restapro::default.ingredient_average_cost',

@@ -55,10 +55,14 @@ return [
                 ],
             ],
             'is_active' => [
-                'label' => 'lang:paolorox.restapro::default.ingredient_is_active',
+                'label' => 'lang:paolorox.restapro::default.recipe_is_active',
                 'type' => 'switch',
-                'span' => 'right',
+                'span' => 'left',
                 'default' => true,
+            ],
+            'real_margin' => [
+                'type' => 'partial',
+                'path' => 'paolorox.restapro::recipes.margin',
             ],
             'yield_amount' => [
                 'label' => 'lang:paolorox.restapro::default.recipe_yield_amount',
